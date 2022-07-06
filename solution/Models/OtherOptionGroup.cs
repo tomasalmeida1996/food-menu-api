@@ -14,9 +14,9 @@ namespace solution
 
         public string Currency { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        //public DateTime CreatedAt { get; set; }
 
-        public DateTime UpdatedAt { get; set; }
+        //public DateTime UpdatedAt { get; set; }
 
         public bool Required { get; set; }
 

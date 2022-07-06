@@ -28,52 +28,46 @@ namespace solution.Controllers
             this.MySqlDatabase = mySqlDatabase;
         }
 
-        public List<Category> getCategoriesWithGroups(int menu_id)
-        {
-            using (MySqlConnection conn = this.MySqlDatabase.Connection)
-            {
-                var lookup = new Dictionary<int, Category>();
-                var lookup2 = new Dictionary<int, OtherOptionGroup>();
-
-                var parameters = new { };
-                var sql = 
-                    "SELECT * " +
-                    "FROM categories cat " +
-                    "left join categoriesotheroptionsgroups coog on  coog.category_id = cat.id" +
-                    "left join otheroptionsgroups oog on coog.otheroptiongroup_id = oog.id" +
-                    //"where id = @Id" +
-                    "";
-
-                List<Category> categories = new List<Category>();
-
-                //conn.Query<Category, OtherOptionGroup, Category>(sql, (cat,group) =>
-                //{
-                //    Category category;
-                //    if (!lookup.TryGetValue(cat.id, out category))
-                //    {
-                //        lookup.Add(cat.id, category = cat);
-                //    }
-                //    OtherOptionGroup groups;
-                //    if (!lookup2.TryGetValue(ol.id, out orderLine))
-                //    {
-                //        lookup2.Add(ol.id, orderLine = ol);
-                //        orderDetail.OrderLines.Add(orderLine);
-                //    }
-                //}
-                //).ToList();
-
-                return categories;
-            }
-        }
-        //public List<Category> getMenuCategories(int menu_id)
+        //private List<Category> getCategoriesWithGroups(int menu_id)
         //{
         //    using (MySqlConnection conn = this.MySqlDatabase.Connection)
         //    {
-        //        List<Category> categories = conn.Query<Category>("SELECT * FROM categories where active = 1").ToList();
+        //        var lookup = new Dictionary<int, Category>();
+        //        var lookup2 = new Dictionary<int, OtherOptionGroup>();
+
+        //        var parameters = new { };
+        //        var sql = 
+        //            "SELECT * " +
+        //            "FROM categories cat " +
+        //            "left join categoriesotheroptionsgroups coog on  coog.category_id = cat.id" +
+        //            "left join otheroptionsgroups oog on coog.otheroptiongroup_id = oog.id" +
+        //            //"where id = @Id" +
+        //            "";
+
+        //        List<Category> categories = new List<Category>();
+
+        //        //conn.Query<Category, OtherOptionGroup, Category>(sql, (cat,group) =>
+        //        //{
+        //        //    Category category;
+        //        //    if (!lookup.TryGetValue(cat.id, out category))
+        //        //    {
+        //        //        lookup.Add(cat.id, category = cat);
+        //        //    }
+        //        //    OtherOptionGroup groups;
+        //        //    if (!lookup2.TryGetValue(ol.id, out orderLine))
+        //        //    {
+        //        //        lookup2.Add(ol.id, orderLine = ol);
+        //        //        orderDetail.OrderLines.Add(orderLine);
+        //        //    }
+        //        //}
+        //        //).ToList();
+
         //        return categories;
         //    }
         //}
-        public List<OtherOptionGroupItem> getGroupsOptions(int group_id)
+        
+
+        private List<OtherOptionGroupItem> getGroupsOptions(int group_id)
         {
             using (MySqlConnection conn = this.MySqlDatabase.Connection)
             {
@@ -87,7 +81,7 @@ namespace solution.Controllers
                 return options;
             }
         }
-        public List<OtherOptionGroup> getCategoryItemsGroups(int category_id)
+        private List<OtherOptionGroup> getCategoryItemsGroups(int category_id)
         {
             using (MySqlConnection conn = this.MySqlDatabase.Connection)
             {
@@ -107,7 +101,7 @@ namespace solution.Controllers
                 return items;
             }
         }
-        public List<Category> getMenuCategories(int menu_id)
+        private List<Category> getMenuCategories(int menu_id)
         {            
             using (MySqlConnection conn = this.MySqlDatabase.Connection)
             {
@@ -118,19 +112,7 @@ namespace solution.Controllers
             }            
         }
 
-        //public List<OtherOptionGroupItem> getGroupsItems(int otheroptiongroup_id)
-        //{
-        //    using (MySqlConnection conn = this.MySqlDatabase.Connection)
-        //    {
-        //        var parameters = new { otheroptiongroup_id = otheroptiongroup_id };
-        //        var sql = "SELECT * FROM otheroptionsgroupsitems where otheroptiongroup_id = @otheroptiongroup_id";
-        //        List<OtherOptionGroupItem> items = conn.Query<OtherOptionGroupItem>(sql, parameters).ToList();
-                
-        //        return items;
-        //    }
-        //}
-
-        public List<OtherOptionGroup> getProductItemsGroups(int productitem_id)
+        private List<OtherOptionGroup> getProductItemsGroups(int productitem_id)
         {
             using (MySqlConnection conn = this.MySqlDatabase.Connection)
             {
@@ -150,7 +132,7 @@ namespace solution.Controllers
                 return items;
             }
         }
-        public List<ProductItem> getCategoryItems(int category_id)
+        private List<ProductItem> getCategoryItems(int category_id)
         {
             using (MySqlConnection conn = this.MySqlDatabase.Connection)
             {
@@ -166,7 +148,11 @@ namespace solution.Controllers
                 return items;
             }
         }
-        
+
+        /// <summary>
+        /// Retrieves a list of available menus
+        /// </summary>
+        /// <response code="200">Menus available</response>
         [HttpGet]
         public List<Menu> GetMenu()
         {            
@@ -218,6 +204,7 @@ namespace solution.Controllers
         //    }
         //}
 
+        //CATEGORY OPERATIONS
         [HttpGet("{menu_id:long}/categories")]
         public async Task<IActionResult> GetMenuCategories(int menu_id)
         {
@@ -298,7 +285,9 @@ namespace solution.Controllers
             {
                 var parameters = new { category_id = category_id, menu_id = menu_id };
                 var query =
-                    " delete from categories where id = @category_id and menu_id = @menu_id ";                   
+                    " delete from categoriesotheroptionsgroups where category_id = @category_id ;" +
+                    " update productItems set category_id = null where category_id = @category_id ;" +
+                    " delete from categories where id = @category_id and menu_id = @menu_id ;";                   
 
                 int records = conn.Execute(query, parameters);
                 
@@ -307,5 +296,122 @@ namespace solution.Controllers
 
         }
 
+        //PRODUCT OPERATIONS
+        [HttpGet("{menu_id:long}/categories/{category_id:long}/products")]
+        public IActionResult GetCategoryProducts(int menu_id, int category_id)
+        {
+            if (menu_id == 0 || category_id == 0)
+                return BadRequest();
+
+            using (MySqlConnection conn = this.MySqlDatabase.Connection)
+            {
+                List<ProductItem> products = getCategoryItems(category_id);
+                
+                return Ok(products);
+            }
+        }
+        [HttpPost("{menu_id:long}/categories/{category_id:long}/products")]
+        public IActionResult AddProduct(int menu_id, int category_id, ProductItem product)
+        {
+            if (menu_id == 0 || category_id == 0)
+                return BadRequest();
+
+            using (MySqlConnection conn = this.MySqlDatabase.Connection)
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("Name", product.Name, DbType.String);
+                parameters.Add("Description", product.Description, DbType.String);
+                parameters.Add("Price", product.Price, DbType.Decimal);
+                parameters.Add("Category_id", category_id, DbType.Int32);
+                var query =
+                    " INSERT INTO ProductItems (Name, Description, Price, Category_id) VALUES (@Name, @Description, @Price, @Category_id); " +
+                    " SELECT LAST_INSERT_ID() ";
+
+                int newCategoryId = conn.QuerySingle<int>(query, parameters);
+                product.id = newCategoryId;
+                product.Active = true;
+                product.Category_id = category_id;
+
+                return Ok(product);
+            }
+        }
+        [HttpPut("{menu_id:long}/categories/{category_id:long}/products/{product_id:long}")]
+        public IActionResult UpdateProduct(int menu_id, int category_id, Category category)
+        {
+            if (menu_id == 0 || category_id == 0)
+                return BadRequest();
+
+            using (MySqlConnection conn = this.MySqlDatabase.Connection)
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("Name", category.Name, DbType.String);
+                parameters.Add("Description", category.Description, DbType.String);
+                parameters.Add("Active", category.Active, DbType.Boolean);
+                parameters.Add("category_id", category_id, DbType.Int32);
+                var query =
+                    " UPDATE productItems set Name = @Name, Description = @Description, Active = @Active where id = @category_id; " +
+                    " SELECT * from categories where id = @category_id";
+
+                Category newCategory = conn.QuerySingle<Category>(query, parameters);
+
+                return Ok(newCategory);
+            }
+
+        }
+        [HttpPost("{menu_id:long}/categories/{category_id:long}/products/{product_id:long}/remove")]
+        public IActionResult RemoveProductFromCategory(int menu_id, int category_id, int product_id)
+        {
+            if (menu_id == 0 || category_id == 0 || product_id == 0)
+                return BadRequest();
+
+            using (MySqlConnection conn = this.MySqlDatabase.Connection)
+            {
+                var parameters = new { category_id = category_id, product_id = product_id };
+                var query =                    
+                    " update productItems set category_id = null where id = @product_id and category_id = @category_id ;";
+
+                int records = conn.Execute(query, parameters);
+
+                return Ok(records);
+            }
+
+        }
+        [HttpPost("{menu_id:long}/categories/{category_id:long}/products/{product_id:long}/add")]
+        public IActionResult AddProductFromCategory(int menu_id, int category_id, int product_id)
+        {
+            if (menu_id == 0 || category_id == 0 || product_id == 0)
+                return BadRequest();
+
+            using (MySqlConnection conn = this.MySqlDatabase.Connection)
+            {
+                var parameters = new { category_id = category_id, product_id = product_id };
+                var query =
+                    " update productItems set category_id = @category_id where id = @product_id ;";
+
+                int records = conn.Execute(query, parameters);
+
+                return Ok(records);
+            }
+
+        }
+        [HttpDelete("products/{product_id:long}")]
+        public IActionResult DeleteProduct(int product_id)
+        {
+            if (product_id == 0)
+                return BadRequest();
+
+            using (MySqlConnection conn = this.MySqlDatabase.Connection)
+            {
+                var parameters = new { product_id = product_id };
+                var query =
+                    " delete from productsitemsotheroptionsgroups where productitem_id = @product_id ;" +
+                    " delete from productItems where id = @product_id ;";
+
+                int records = conn.Execute(query, parameters);
+
+                return Ok(records);
+            }
+
+        }
     }
 }
