@@ -1,0 +1,377 @@
+{
+	"info": {
+		"_postman_id": "6caa66aa-4775-414d-bb69-9b085939f314",
+		"name": "food-menu New API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "tests",
+			"item": []
+		},
+		{
+			"name": "endpoints",
+			"item": [
+				{
+					"name": "swagger docs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44315/swagger/v1/swagger.json",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44315",
+							"path": [
+								"swagger",
+								"v1",
+								"swagger.json"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get menus",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44315/api/menu",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44315",
+							"path": [
+								"api",
+								"menu"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get menu by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44315/api/menu/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44315",
+							"path": [
+								"api",
+								"menu",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get complete menu",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44315/api/menu/1/complete",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44315",
+							"path": [
+								"api",
+								"menu",
+								"1",
+								"complete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44315/api/menu/1/categories",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44315",
+							"path": [
+								"api",
+								"menu",
+								"1",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"Salads\",\r\n    \"Description\": \"More Worlds best salads\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44315/api/menu/1/categories",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44315",
+							"path": [
+								"api",
+								"menu",
+								"1",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update category",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"Another Salads\",\r\n    \"Description\": \"Another Worlds best salads\",\r\n    \"Active\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44315/api/menu/1/categories/4",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44315",
+							"path": [
+								"api",
+								"menu",
+								"1",
+								"categories",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44315/api/menu/1/categories/3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44315",
+							"path": [
+								"api",
+								"menu",
+								"1",
+								"categories",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get products by category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44315/api/menu/1/categories/1/products",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44315",
+							"path": [
+								"api",
+								"menu",
+								"1",
+								"categories",
+								"1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"cesar salad\",\r\n    \"Description\": \"cesar salad\",\r\n    \"Price\": 3.99\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44315/api/menu/1/categories/15/products",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44315",
+							"path": [
+								"api",
+								"menu",
+								"1",
+								"categories",
+								"15",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44315/api/menu/products/6",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44315",
+							"path": [
+								"api",
+								"menu",
+								"products",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove product from category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44315/api/menu/1/categories/15/products/11/remove",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44315",
+							"path": [
+								"api",
+								"menu",
+								"1",
+								"categories",
+								"15",
+								"products",
+								"11",
+								"remove"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add product to category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44315/api/menu/1/categories/15/products/11/add",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44315",
+							"path": [
+								"api",
+								"menu",
+								"1",
+								"categories",
+								"15",
+								"products",
+								"11",
+								"add"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
